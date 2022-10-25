@@ -62,7 +62,7 @@
           </div>
       </div>
 
-      <div>
+      <div class="todolist-container">
           <div v-if="items.length == 0" class="cb-item">
               Enter some items!
           </div>
@@ -121,7 +121,7 @@ hr.rounded {
 }
 
 .list-items {
-    position: relative;
+    position: absolute;
     display: flex;
     flex-wrap: wrap;
 }
@@ -166,6 +166,12 @@ hr.rounded {
 
 .item-inprogress {
     text-decoration: grammar-error;
+    padding: 0.1px;
+    margin: 4px
+}
+
+.todolist-container {
+    margin-top: auto;
 }
 
 </style>
