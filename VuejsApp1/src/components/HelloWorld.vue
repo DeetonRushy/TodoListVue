@@ -24,6 +24,19 @@
     const items = ref([])
     const inputBox = ref('')
 
+    const showingNotification = ref(false)
+    const notification = ref('')
+
+    const showNotification = (message) => {
+        console.log("showing notification")
+        notification.value = message
+        showingNotification.value = true
+        setInterval(function () {
+            showingNotification.value = false
+            notification.value = ''
+        }, 5000)
+    }
+
     const addItem = () => {
         const data = inputBox
         const obj = {
@@ -46,6 +59,18 @@
         items.value[index].done = true
         statistics[STAT_COMPLETED].value++
     }
+
+    const clearAllItems = () => {
+        if (items.value.length == 0) {
+            showNotification("nothing to remove!")
+            return
+        }
+
+        // this map call doesn't really work, need to read more into how it works.
+        // Im assuming it's like C#'s LINQ array.Where(x => <condition>)...
+        statistics[STAT_SKIPPED].value += items.value.map(x => { return x.done == true }).length
+        items.value = []
+    }
 </script>
 
 <template>
@@ -53,6 +78,7 @@
       <input id="add-item" type="text" placeholder="enter an item" v-model="inputBox"/>
       <button @click="addItem">Add item</button>
       <button @click="statisticPanel = !statisticPanel">Show Stats</button>
+      <button @click="clearAllItems">Clear all items</button>
 
       <div v-if="statisticPanel === true" class="stat-panel">
           <div v-for="(item, index) in statistics" class="stat">
@@ -60,6 +86,10 @@
               <hr class="rounded" />
               <p> {{item.value}} </p>
           </div>
+      </div>
+
+      <div v-if="showingNotification.value == true" id="notification" class="notification">
+          {{ notification.value }}
       </div>
 
       <div class="todolist-container">
@@ -72,7 +102,8 @@
                     <p :class="item.done ? 'item-finished' : 'item-inprogress'">
                         {{ item.title }}
                     </p>
-                    <hr class="rounded"/>
+                    <hr v-if="item.done" class="rounded-complete"/>
+                    <hr v-else class="rounded-progress"/>
                     <button v-if="!item.done" @click="itemComplete(index)">Complete</button>
                     <button v-if="item.done" @click="removeItem(index)">Remove</button>
                     <button v-if="!item.done" @click="forceRemoveItem(index)">Skip</button>
@@ -120,6 +151,16 @@ hr.rounded {
     border-radius: 2.5px;
 }
 
+hr.rounded-complete {
+    border-top: 8px solid #73ff51;
+    border-radius: 2.5px;
+}
+
+hr.rounded-progress {
+    border-top: 8px solid #ff0000;
+    border-radius: 2.5px;
+}
+
 .list-items {
     position: absolute;
     display: flex;
@@ -130,6 +171,10 @@ hr.rounded {
     position: relative;
     display: flex;
     flex-wrap: wrap;
+}
+
+.notification {
+    font-family:monospace;
 }
 
 .stat {
@@ -155,7 +200,7 @@ hr.rounded {
     border-radius: 5px;
     background-color: #475B5A;
     font-family: 'Cascadia Code';
-    color: #73ff51;
+    color: white;
     font-size: 1.5rem;
     font-weight: bold;
 }

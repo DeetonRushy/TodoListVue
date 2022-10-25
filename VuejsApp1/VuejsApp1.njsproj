@@ -47,6 +47,9 @@
     <Content Include="README.md" />
     <Content Include="src\App.vue" />
     <Content Include="src\assets\logo.png" />
+    <Content Include="src\components\Banner.vue">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\components\HelloWorld.vue" />
     <Content Include="src\main.js" />
   </ItemGroup>
