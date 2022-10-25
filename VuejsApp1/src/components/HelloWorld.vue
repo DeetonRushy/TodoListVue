@@ -75,7 +75,7 @@
                     <hr class="rounded"/>
                     <button v-if="!item.done" @click="itemComplete(index)">Complete</button>
                     <button v-if="item.done" @click="removeItem(index)">Remove</button>
-                    <button @click="forceRemoveItem(index)">Skip</button>
+                    <button v-if="!item.done" @click="forceRemoveItem(index)">Skip</button>
                 </div>
             </li>
         </ul>
