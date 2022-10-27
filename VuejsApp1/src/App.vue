@@ -1,25 +1,29 @@
 <template>
-  <title>Todo List</title>
-  <Banner title="Deetons Todolist" />
-  <TodoList msg="Welcome to Your Vue.js App"/>
+  <RouterView>
+    <Banner title="Deetons Todolist" />
+    <TodoList msg="Welcome to Your Vue.js App"/>
+  </RouterView>
 </template>
 
 <script>
 import TodoList from './components/TodoList.vue'
 import Banner from './components/Banner.vue'
 
+import RouterView from 'vue-router';
+
 export default {
   name: 'App',
   components: {
       TodoList,
-      Banner
+      Banner,
+      RouterView
   }
 }
 </script>
 
 <style>
-html {
-    background-color: #656565
+html{
+  background-color: #212121;
 }
 
 #app {

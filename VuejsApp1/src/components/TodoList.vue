@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from 'vue'
+import NiceButton from "@/components/NiceButton";
 
 const statisticPanel = ref(false)
     const statistics = [
@@ -71,18 +72,25 @@ const statisticPanel = ref(false)
         }
 
         // this map call doesn't really work, need to read more into how it works.
-        // Im assuming it's like C#'s LINQ array.Where(x => <condition>)...
+        // I'm assuming it's like C#'s LINQ array.Where(x => <condition>)...
         statistics[STAT_SKIPPED].value += items.value.map(x => { return x.done === true }).length
         items.value = []
+    }
+
+    const enterAddItem = (event) => {
+        if (event.key === 'Enter'){
+          addItem()
+        }
     }
 </script>
 
 <template>
   <div>
-      <input id="add-item" type="text" placeholder="enter an item" v-model="inputBox"/>
+      <input id="add-item" type="text" placeholder="enter an item" v-model="inputBox" @click="enterAddItem"/>
       <button @click="addItem">Add item</button>
       <button @click="statisticPanel = !statisticPanel">Show Stats</button>
       <button @click="clearAllItems">Clear all items</button>
+    <NiceButton>Something</NiceButton>
 
       <div v-if="statisticPanel === true" class="stat-panel">
           <div v-for="item in statistics" class="stat">
@@ -184,9 +192,9 @@ hr.rounded-progress {
     padding: 1rem;
     border: 1px solid #000;
     border-radius: 5px;
-    background-color: #475B5A;
+    background-color: #4a4949;
     font-family: 'Cascadia Code', ui-monospace;
-    color: #73ff51;
+    color: white;
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -198,7 +206,7 @@ hr.rounded-progress {
     padding: 1rem;
     border: 1px solid #000;
     border-radius: 5px;
-    background-color: #475B5A;
+    background-color: #4a4949;
     font-family: 'Cascadia Code',ui-monospace;
     color: white;
     font-size: 1.5rem;
