@@ -1,7 +1,7 @@
 <script setup>
-    import { ref } from 'vue'
+import {ref} from 'vue'
 
-    const statisticPanel = ref(false)
+const statisticPanel = ref(false)
     const statistics = [
         {
             stat: "Total Items",
@@ -28,7 +28,6 @@
     const notification = ref('')
 
     const showNotification = (message) => {
-        console.log("showing notification")
         notification.value = message
         showingNotification.value = true
         setInterval(function () {
@@ -38,9 +37,14 @@
     }
 
     const addItem = () => {
-        const data = inputBox
-        const obj = {
-            title: data.value,
+
+      if (inputBox.value === ""){
+        showNotification("you must enter a name");
+        return
+      }
+
+      const obj = {
+            title: inputBox.value,
             done: false
         }
         items.value.push(obj)
@@ -61,14 +65,14 @@
     }
 
     const clearAllItems = () => {
-        if (items.value.length == 0) {
+        if (items.value.length === 0) {
             showNotification("nothing to remove!")
             return
         }
 
         // this map call doesn't really work, need to read more into how it works.
         // Im assuming it's like C#'s LINQ array.Where(x => <condition>)...
-        statistics[STAT_SKIPPED].value += items.value.map(x => { return x.done == true }).length
+        statistics[STAT_SKIPPED].value += items.value.map(x => { return x.done === true }).length
         items.value = []
     }
 </script>
@@ -81,25 +85,25 @@
       <button @click="clearAllItems">Clear all items</button>
 
       <div v-if="statisticPanel === true" class="stat-panel">
-          <div v-for="(item, index) in statistics" class="stat">
+          <div v-for="item in statistics" class="stat">
               <p>{{ item.stat }}</p>
               <hr class="rounded" />
               <p> {{item.value}} </p>
           </div>
       </div>
 
-      <div v-if="showingNotification.value == true" id="notification" class="notification">
-          {{ notification.value }}
+      <div v-if="showingNotification === true" id="notification" class="stat">
+          {{ notification }}
       </div>
 
       <div class="todolist-container">
-          <div v-if="items.length == 0" class="cb-item">
+          <div v-if="items.length === 0" class="cb-item">
               Enter some items!
           </div>
         <ul class="list-items" id="todolist">
             <li class="cb-item" v-for="(item, index) in items" :key="index">
                 <div>
-                    <p :class="item.done ? 'item-finished' : 'item-inprogress'">
+                    <p :class="item.done ? 'item-finished' : 'item-progress'">
                         {{ item.title }}
                     </p>
                     <hr v-if="item.done" class="rounded-complete"/>
@@ -141,24 +145,24 @@ a {
 }
 
 input[type=text], button {
-    font-family: 'Cascadia Code';
+    font-family: 'Cascadia Code', ui-monospace;
     font-size: 1.5rem;
     font-weight: bold;
 }
 
 hr.rounded {
     border-top: 8px solid #bbb;
-    border-radius: 2.5px;
+    border-radius: 3px;
 }
 
 hr.rounded-complete {
     border-top: 8px solid #73ff51;
-    border-radius: 2.5px;
+    border-radius: 3px;
 }
 
 hr.rounded-progress {
     border-top: 8px solid #ff0000;
-    border-radius: 2.5px;
+    border-radius: 3px;
 }
 
 .list-items {
@@ -173,10 +177,6 @@ hr.rounded-progress {
     flex-wrap: wrap;
 }
 
-.notification {
-    font-family:monospace;
-}
-
 .stat {
     box-sizing: border-box;
     flex: 1 0 250px;
@@ -185,7 +185,7 @@ hr.rounded-progress {
     border: 1px solid #000;
     border-radius: 5px;
     background-color: #475B5A;
-    font-family: 'Cascadia Code';
+    font-family: 'Cascadia Code', ui-monospace;
     color: #73ff51;
     font-size: 1.5rem;
     font-weight: bold;
@@ -199,7 +199,7 @@ hr.rounded-progress {
     border: 1px solid #000;
     border-radius: 5px;
     background-color: #475B5A;
-    font-family: 'Cascadia Code';
+    font-family: 'Cascadia Code',ui-monospace;
     color: white;
     font-size: 1.5rem;
     font-weight: bold;
@@ -209,7 +209,7 @@ hr.rounded-progress {
     text-decoration: line-through solid;
 }
 
-.item-inprogress {
+.item-progress {
     text-decoration: grammar-error;
     padding: 0.1px;
     margin: 4px
