@@ -1,16 +1,17 @@
 <template>
+  <title>Todo List</title>
   <Banner title="Deetons Todolist" />
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <TodoList msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TodoList from './components/TodoList.vue'
 import Banner from './components/Banner.vue'
 
 export default {
   name: 'App',
   components: {
-      HelloWorld,
+      TodoList,
       Banner
   }
 }

@@ -1,14 +1,10 @@
-<script setup>
-    import { ref } from 'vue'
-</script>
-
 <template>
     <div class="banner-container">
         <div class="banner-item">
             {{ title }}
             <div class="social-container">
                 <a href="https://github.com/DeetonRushy">
-                    <img class="small-image" src="../assets/github.png" />
+                    <img class="small-image" src="../assets/github.png"  alt="Github"/>
                 </a>
             </div>
         </div>
@@ -40,7 +36,7 @@ export default {
         /*border: 1px solid #000; */
         border-radius: 5px;
         background-color: inherit;
-        font-family: 'Cascadia Code';
+        font-family: 'Cascadia Code',ui-monospace;
         color: white;
         font-size: 1.5rem;
         font-weight: bold;
@@ -56,7 +52,7 @@ export default {
         border: 1px solid #000;
         border-radius: 5px;
         background-color: cornflowerblue;
-        font-family: 'Cascadia Code';
+        font-family: 'Cascadia Code', ui-monospace;
         color: white;
         font-size: 1.5rem;
         font-weight: bold;
@@ -70,5 +66,6 @@ export default {
     .small-image {
         width: 2em;
         height: 2em;
+        border-radius: 50%;
     }
 </style>
